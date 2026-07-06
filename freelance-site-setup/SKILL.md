@@ -16,7 +16,7 @@ Ask the user (skip anything already stated):
 2. **Design input**: Figma file provided, or design-from-scratch?
 3. **Anything beyond a landing page?** (CMS, forms, i18n, payments) — affects scaffold flags
 
-## Phase 1 — Scaffold the repo
+## Phase 1 — Scaffold the repo (or audit an existing one)
 
 Follow [SETUP.md](SETUP.md) top to bottom. Summary:
 
@@ -27,6 +27,15 @@ Follow [SETUP.md](SETUP.md) top to bottom. Summary:
 3. `shadcn init` + the base components a landing page needs
 4. Install `motion` (Motion for React — the Framer Motion successor)
 5. `git init`, first commit, create GitHub repo with `gh repo create`
+
+**Existing project?** NEVER skip this phase — run it as an audit instead:
+
+- Next.js: installed version vs `npm view next version`; propose the upgrade
+- Tailwind v4 present and CSS-first (`@theme` in globals, no legacy config)
+- shadcn initialized (`components.json`) — `npx shadcn@latest info` to confirm
+- `motion` installed; imports use `motion/react`, not `framer-motion`
+- Companion skills & MCP table below — verify and install missing ones
+- `CLAUDE.md` conventions present (Phase 3); add if missing
 
 ## Phase 2 — Design system
 
