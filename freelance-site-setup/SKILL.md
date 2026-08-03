@@ -1,6 +1,6 @@
 ---
 name: freelance-site-setup
-description: Bootstrap a new freelance client website repo (usually a landing page) with the preferred stack — Next.js, Tailwind v4, shadcn/ui, Motion, design tokens, and coding rules. Use when starting a new client site or landing page project, or when the user says "new client project", "set up a landing page", or "scaffold the site".
+description: Bootstrap a new freelance client website repo (usually a landing page) with the preferred stack — Next.js, Tailwind v4, shadcn/ui, Motion, NumberFlow, design tokens, and coding rules. Use when starting a new client site or landing page project, or when the user says "new client project", "set up a landing page", or "scaffold the site".
 ---
 
 # Freelance Site Setup
@@ -14,19 +14,62 @@ Ask the user (skip anything already stated):
 
 1. **Project/client name** → becomes repo + directory name (kebab-case)
 2. **Design input**: Figma file provided, or design-from-scratch?
-3. **Anything beyond a landing page?** (CMS, forms, i18n, payments) — affects scaffold flags
+3. **Sibling project to mirror?** — an existing client repo with the same
+   architecture (e.g. `~/dev/work/freelance/ecolab`, `karcher`) is the single
+   highest-value input: copy its decisions, pinned versions, configs, and
+   documented gotchas instead of re-deriving them. Ask even if the user
+   didn't mention one.
+4. **Backend** — default is **Cloudflare** (Workers via OpenNext, D1
+   database, R2 storage; Payload CMS runs in-app). Pick **Supabase** only
+   when hosted Postgres/auth/realtime is a genuinely better fit. Deploys
+   target Cloudflare either way.
+5. **Site features** — ask as checkboxes (AskUserQuestion with
+   `multiSelect: true`), never as an open-ended "anything beyond a landing
+   page?" question. AskUserQuestion caps a question at 4 options, so split
+   into two multiSelect questions:
+
+   **Content & reach:**
+   - [ ] **CMS** — client-editable content. Default **PayloadCMS 3**,
+     self-hosted in-app (admin at `/admin`, storage per backend choice) —
+     no hosted CMS unless the client explicitly demands one
+   - [ ] **Forms** — contact form, newsletter signup, feedback (Resend, email setup)
+   - [ ] **Internationalization (i18n)** — multi-language support
+   - [ ] **Analytics** — tracking, conversion pixels (Vercel Analytics, Posthog)
+
+   **Commerce & data:**
+   - [ ] **E-commerce** — product catalog, shopping cart, checkout (Stripe for
+     simple payments; MedusaJS if it's a full store — no Shopify)
+   - [ ] **Authentication** — user login, profiles, gated content
+   - [ ] **Database** — persistent data (D1 on the Cloudflare backend,
+     Supabase Postgres otherwise)
+   - [ ] **File uploads** — image/document storage (R2 on Cloudflare,
+     Supabase Storage otherwise)
+
+   Nothing selected = plain landing page. Selections affect install flags,
+   Phase 2 planning, and which skills/tools to activate; record the chosen
+   features (and the concrete service picked for each) in the project's
+   `CLAUDE.md` during Phase 3.
 
 ## Phase 1 — Scaffold the repo (or audit an existing one)
 
 Follow [SETUP.md](SETUP.md) top to bottom. Summary:
 
 1. `create-next-app@latest` — always latest stable Next.js (TypeScript,
-   Tailwind v4, App Router, src dir off)
+   Tailwind v4, App Router, **src dir ON**, **pnpm**). It generates
+   `AGENTS.md` plus a `CLAUDE.md` pointer (`@AGENTS.md`) — keep that pattern.
 2. **Verify the installed Next.js version's docs** in `node_modules/next/dist/docs/`
    before writing code — APIs may differ from training data
-3. `shadcn init` + the base components a landing page needs
+3. `shadcn init` — the CLI is **preset-based** now; `-b` selects the
+   primitive library (`radix`|`base`|`aria`), NOT a base color. Default is
+   **Base UI** (`base`) — custom triggers use the `render` prop, not
+   `asChild`. Use `radix` only when mirroring a radix sibling project
+   (e.g. ecolab/karcher). Then add the base components a landing page needs.
 4. Install `motion` (Motion for React — the Framer Motion successor)
-5. `git init`, first commit, create GitHub repo with `gh repo create`
+5. Install `@number-flow/react` (animated numbers for stats, counters, prices)
+6. **Backend wiring** per Phase 0 (default Cloudflare + Payload) — see
+   [SETUP.md § Backend](SETUP.md#5-backend). Mirror the sibling project's
+   configs and pin Payload to its known-good version.
+7. `git init`, first commit, create GitHub repo with `gh repo create`
 
 **Existing project?** NEVER skip this phase — run it as an audit instead:
 
@@ -34,6 +77,17 @@ Follow [SETUP.md](SETUP.md) top to bottom. Summary:
 - Tailwind v4 present and CSS-first (`@theme` in globals, no legacy config)
 - shadcn initialized (`components.json`) — `npx shadcn@latest info` to confirm
 - `motion` installed; imports use `motion/react`, not `framer-motion`
+- `@number-flow/react` installed if the design has animated stats/counters/prices
+- **Features from Phase 0** — check each selected feature and verify dependencies:
+  - **CMS**: CMS client library + env config present
+  - **Forms**: form library (react-hook-form + zod) + email setup (Resend, SendGrid)
+  - **E-commerce**: Stripe SDK for simple checkout; MedusaJS backend + storefront
+    SDK for a full store (never Shopify) + cart state management
+  - **Analytics**: tracking script/MCP installed + events configured
+  - **i18n**: next-intl or similar + translation files set up
+  - **Auth**: auth library (NextAuth, Clerk, Supabase Auth) + callbacks
+  - **Database**: client library + migrations / schema (if required)
+  - **File uploads**: upload handler + storage service config
 - Companion skills & MCP table below — verify and install missing ones
 - `CLAUDE.md` conventions present (Phase 3); add if missing
 
@@ -58,8 +112,11 @@ Set up tokens BEFORE building sections, per [SETUP.md § Design system](SETUP.md
 
 ## Phase 3 — Coding rules
 
-Copy the template from [CONVENTIONS.md](CONVENTIONS.md) into the new repo as
-`CLAUDE.md`, filling in the project-specific header. This encodes:
+Copy the template from [CONVENTIONS.md](CONVENTIONS.md) into the new repo's
+`AGENTS.md`, filling in the project-specific header. create-next-app already
+generates `CLAUDE.md` as an `@AGENTS.md` pointer — keep the pointer, put all
+content in `AGENTS.md` (append below the generated `nextjs-agent-rules`
+block). This encodes:
 
 - Clean CSS convention (tokens + utilities, no arbitrary-value soup)
 - Component and file structure for landing pages
@@ -78,7 +135,7 @@ be installed before the build starts — do not skip or substitute.
 | **vercel-react-best-practices** | writing/refactoring React & Next.js code, data fetching, performance | `npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices -g` |
 | **vercel-composition-patterns** | component API design: compound components, no boolean-prop soup | `npx skills add vercel-labs/agent-skills --skill vercel-composition-patterns -g` |
 | **web-design-guidelines** | UI/accessibility audit before client handoff | `npx skills add vercel-labs/agent-skills --skill web-design-guidelines -g` |
-| **web-animation-design** | *deciding* animations: easing, duration, when not to animate | `npx skills add vercel-labs/open-agents --skill web-animation-design -g` |
+| **web-animation-design** | *deciding* animations: easing, duration, when not to animate | `npx skills add vercel-labs/open-agents --skill web-animation-design` — project-level, run inside the repo (`-g` fails: PromptScript skills don't support global install) |
 | **motion-animation** | *implementing* animations in Motion (`motion/react`, scroll reveals, springs) | personal repo: `git clone git@github.com:Tseku210/skills.git ~/dev/personal/my-skills && ~/dev/personal/my-skills/link.sh` |
 
 Timing rule when both animation skills apply: marketing sections (hero
@@ -87,23 +144,32 @@ UI follows web-animation-design's under-300ms rule.
 
 ## Phase 4 — Verify
 
-- `npm run dev` starts clean, no console errors
-- `npm run build` passes
-- shadcn button renders, fonts load, tokens apply
+- `pnpm dev` starts clean, no console errors
+- `pnpm build` passes (with Payload this MUST be `next build --webpack` —
+  see SETUP.md § Backend)
+- shadcn button renders, tokens apply
+- **Fonts actually apply** — check computed `font-family` in the browser,
+  don't trust the code. The `next/font` `variable:` names must match the
+  `@theme` font mappings: create-next-app emits `--font-geist-sans`/`--font-geist-mono`
+  while shadcn's theme maps `--font-sans`/`--font-mono`; the mismatch fails
+  silently to the fallback stack.
+- If a backend is wired: `/admin` responds, `pnpm typecheck` passes
 - Commit: `chore: scaffold project with stack and conventions`
 
 **Verification tooling:** use Claude Code's built-in `preview_*` tools
 (snapshot, console logs, click/fill, resize) during the build — do NOT add a
-Playwright MCP. Add Playwright as a dev dependency (with checked-in tests)
-only when the project justifies CI-run E2E: form-heavy or transactional
-sites, not simple landing pages.
+Playwright MCP. If `preview_*` calls fail or time out, fall back to the
+`agent-browser` CLI (snapshot + console + eval covers the same checks). Add
+Playwright as a dev dependency (with checked-in tests) only when the project
+justifies CI-run E2E: form-heavy or transactional sites, not simple landing
+pages.
 
 ## Checklist (copy into first message of the project)
 
 ```
-[ ] Phase 0: name, design input, scope confirmed
-[ ] Phase 1: scaffold + deps + git + GitHub repo
-[ ] Phase 2: fonts, tokens, fluid type, container-page
-[ ] Phase 3: CLAUDE.md conventions in repo
+[ ] Phase 0: name, design input, sibling project, backend, features (checkbox)
+[ ] Phase 1: scaffold + deps + backend wiring + git + GitHub repo
+[ ] Phase 2: fonts (verified applying), tokens, type scale, Container
+[ ] Phase 3: AGENTS.md conventions in repo (CLAUDE.md stays a pointer)
 [ ] Phase 4: dev + build verified, committed
 ```
