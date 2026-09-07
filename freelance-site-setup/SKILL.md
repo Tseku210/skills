@@ -71,7 +71,7 @@ Follow [SETUP.md](SETUP.md) top to bottom. Summary:
    configs and pin Payload to its known-good version.
 7. `git init`, first commit, create GitHub repo with `gh repo create`
 
-**Existing project?** NEVER skip this phase — run it as an audit instead:
+**Existing project?** Run this phase as an audit rather than a scaffold:
 
 - Next.js: installed version vs `npm view next version`; propose the upgrade
 - Tailwind v4 present and CSS-first (`@theme` in globals, no legacy config)
@@ -122,11 +122,12 @@ block). This encodes:
 - Component and file structure for landing pages
 - Motion/animation rules (respect `prefers-reduced-motion`)
 
-## Companion skills & MCP (verify, and INSTALL anything missing)
+## Companion skills & MCP
 
-Never assume these are installed. Check each against the session's
-available-skills list (and `claude mcp list` for MCPs). Anything missing MUST
-be installed before the build starts — do not skip or substitute.
+Check each against the session's available-skills list (and `claude mcp list`
+for MCPs) and install what's missing before the build starts — the build
+assumes them, and substituting a different tool mid-project costs more than
+the install.
 
 | Dependency | Used for | Install if missing |
 | --- | --- | --- |
@@ -136,10 +137,10 @@ be installed before the build starts — do not skip or substitute.
 | **vercel-composition-patterns** | component API design: compound components, no boolean-prop soup | `npx skills add vercel-labs/agent-skills --skill vercel-composition-patterns -g` |
 | **web-design-guidelines** | UI/accessibility audit before client handoff | `npx skills add vercel-labs/agent-skills --skill web-design-guidelines -g` |
 | **web-animation-design** | *deciding* animations: easing, duration, when not to animate | `npx skills add vercel-labs/open-agents --skill web-animation-design` — project-level, run inside the repo (`-g` fails: PromptScript skills don't support global install) |
-| **motion-animation** | *implementing* animations in Motion (`motion/react`, scroll reveals, springs) | personal repo: `git clone git@github.com:Tseku210/skills.git ~/dev/personal/my-skills && ~/dev/personal/my-skills/link.sh` |
+| **motion-react** | *implementing* animations in Motion (`motion/react`, exits, layout morphs, springs, drag) | local copy in `~/.claude/skills/motion-react` (animations.dev skill set, alongside `animate`) |
 
 Timing rule when both animation skills apply: marketing sections (hero
-entrances) may use motion-animation's longer 0.6–0.8s durations; interactive
+entrances) may use longer 0.6–0.8s durations in motion-react; interactive
 UI follows web-animation-design's under-300ms rule.
 
 ## Phase 4 — Verify
