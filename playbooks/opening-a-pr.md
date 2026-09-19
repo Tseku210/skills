@@ -8,13 +8,13 @@ Invoked at the end of Bug fix, Feature, Refactoring, and Visual parity.
 
 **Blast radius.** Before the PR, run `blast-radius` on any change with fan-out beyond the diff: a shared type, a generated file, a paired locale file, a migration, a shared primitive.
 
-**Description.** Analyze the full commit history against the base (`git diff main...HEAD`), not the last commit. Use these sections in order and drop a section when it is empty.
+**Description.** Base it on everything the branch adds, not the last commit: `git log main..HEAD` for intent, `git diff main...HEAD` for scope. Use these sections in order and drop a section when it is empty.
 
 - `## Why`. The intent and why this approach fits.
 - `## Scope`. Facts from the diff. Real symbols and paths. Both sides of a rename. What is in and out when the boundary matters.
 - `## Tradeoffs`. Real choices only.
 - `## Blast Radius`. Who and what the change touches, and why it is safe or risky, with the one safety fact and how far it was proven.
-- `## Verification`. How you ran each check and its outcome, not only the command name. Name the real path: the `verify-<app>` skill, agent-browser, the targeted tests. Remaining manual checks go here as `- [ ]` items; that is the test plan git-workflow.md asks for.
+- `## Verification`. How you ran each check and its outcome, not only the command name. Name the real path: the `verify-<app>` skill, agent-browser, the targeted tests. Remaining manual checks go here as `- [ ]` items.
 
 Attach screenshots when they prove a claim. No `## Summary` boilerplate. End the body with the attribution line the session requires.
 
