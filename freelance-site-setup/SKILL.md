@@ -1,6 +1,7 @@
 ---
 name: freelance-site-setup
 description: Bootstrap a new freelance client website repo (usually a landing page) with the preferred stack — Next.js, Tailwind v4, shadcn/ui, Motion, NumberFlow, design tokens, and coding rules. Use when starting a new client site or landing page project, or when the user says "new client project", "set up a landing page", or "scaffold the site".
+disable-model-invocation: true
 ---
 
 # Freelance Site Setup

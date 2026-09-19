@@ -1,6 +1,7 @@
 ---
 name: prd-to-linear-issues
 description: Break a PRD into independently-grabbable Linear issues using tracer-bullet vertical slices. Use when user wants to convert a PRD to Linear issues, create implementation tickets, or break down a PRD into work items.
+disable-model-invocation: true
 ---
 
 # PRD to Linear Issues
