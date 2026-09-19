@@ -25,13 +25,6 @@ Never call `useEffect` directly. Use derived state, event handlers, data-fetchin
 | One-time external sync on mount       | `useMountEffect` (Rule 4)                   |
 | Resetting state when a prop changes   | `key` prop on parent (Rule 5)               |
 
-## When to Use This Skill
-
-- Writing new React components
-- Refactoring existing `useEffect` calls
-- Reviewing PRs that introduce `useEffect`
-- An agent adds `useEffect` "just in case"
-
 ## Workflow
 
 ### 1. Identify the useEffect
