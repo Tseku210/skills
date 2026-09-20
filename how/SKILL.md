@@ -1,6 +1,6 @@
 ---
 name: how
-description: "Use for \"how does X work\", code walkthroughs before changing something, placement / ownership / layering questions (\"where should this live\", \"is this the right layer\"), and \"why is it built this way\" history questions. Explains subsystem architecture, runtime flow, onboarding mental models, and cited design history."
+description: "Use for \"how does X work\", code walkthroughs before changing something, placement / ownership / layering questions (\"where should this live\", \"is this the right layer\"), \"why is it built this way\" history questions, and \"are we sure about Z\" or \"X or Y\" decisions that need the code read first. Explains subsystem architecture, runtime flow, onboarding mental models, and cited design history."
 ---
 
 # How
@@ -64,7 +64,7 @@ Once all explorers return, spawn one `general-purpose` subagent with the prompt 
 
 ### Step 4. Present
 
-Present the explanation. You may lightly edit for clarity or add context from the conversation, but don't substantially rewrite. When the user asked for a visual, or the flow has three or more moving parts, hand the finished explanation to `show-me` to render it as an artifact. Build diagrams up one part at a time, not one crowded diagram at the end.
+Present the explanation. You may lightly edit for clarity or add context from the conversation, but don't substantially rewrite. For "are we sure about Z" and "X or Y" questions, add your own judgment with reasons after the explanation, with a tradeoffs table when the choice is between alternatives. Push back if the premise is wrong. When the user asked for a visual, or the flow has three or more moving parts, hand the finished explanation to `show-me` to render it as an artifact. Build diagrams up one part at a time, not one crowded diagram at the end.
 
 ### Output format
 

@@ -1,8 +1,13 @@
-### Refactoring
+---
+name: refactoring
+description: "Own a structure change that must not change behavior: pin the contract with a characterization test first, subtract before adding, move in small steps that keep the pin green, prove equivalence. Use for refactor, rename, extract, inline, dedupe, restructure, move a module, tidy up."
+---
+
+# Refactoring
 
 **You own the contract. The structure changes; the behavior does not.** For "refactor", "rename", "extract", "inline", "dedupe", "restructure", "move this module", "tidy up this area". Distinct from Feature, which adds behavior, and Bug fix, which corrects it.
 
-A refactor that smuggles in a behavior change loses its safety net. If the cleanup reveals a missing feature or a real bug, split it out and ship the structural change first against the pinned contract. A redesign is allowed, but name it and route to Feature. A migration across many call sites gets written tickets first (`/to-tickets`); this playbook is the focused-to-medium change.
+A refactor that smuggles in a behavior change loses its safety net. If the cleanup reveals a missing feature or a real bug, split it out and ship the structural change first against the pinned contract. A redesign is allowed, but name it and route to Feature. A migration across many call sites gets written tickets first (`/to-tickets`) and runs through `/execute-mode`; this playbook is the focused-to-medium change.
 
 1. Pin the behavior contract first. Run `how` over the affected subsystem to learn the contract, then write a characterization test, snapshot, or equivalence harness that captures current behavior before any structure moves. The harness makes "refactor" a checkable claim. If the area has no coverage, write the pin before touching structure. Type check and lint are not a pin. (principles/prove-it-works.md)
 2. Name the structure the code is missing: a state machine over scattered booleans, a table or registry over spread-out branching, a typed model over repeated shape assumptions, a reducer over ad hoc mutations. Boring code stays when the shape is already clear and local; the reshape must delete branches or invalid states, not add indirection. (principles/model-the-domain.md)
@@ -11,6 +16,6 @@ A refactor that smuggles in a behavior change loses its safety net. If the clean
 5. Move in small behavior-preserving steps, each keeping the pin green. For API reshapes, migrate every caller and delete the old API in the same wave. No compatibility shims, no parallel old-and-new paths. Spot-check every rename against the actual files; renames silently miss usages in strings, prose, i18n keys, and back-references. Run `blast-radius` on anything with fan-out beyond the diff. Delegate the mechanical edits to a subagent with a specific scope (file paths, the names being moved, the behavior to hold); review the diff yourself. (principles/migrate-callers-then-delete-legacy-apis.md)
 6. Prove behavior is unchanged on the real artifact, not "it compiles". For larger reshapes, run an equivalence check: a script that diffs old-vs-new outputs, a recorded baseline replayed against the new code, or a smoke run on the matching surface via the `verify-<app>` skill. Own the verification yourself; do not trust a delegate's "looks good" summary.
 7. Confirm the change earns its place. The success measure is reduced reader load: fewer layers between question and answer, less hidden state, fewer indirections without a second consumer. If the diff does not lower reader load somewhere, revert it. (principles/minimize-reader-load.md)
-8. Rebase into small ordered commits that tell the story. A subtraction commit, then the reshape, then any follow-on cleanup, so a single revert undoes one slice. Run **Opening a PR** (playbooks/opening-a-pr.md). (principles/sequence-verifiable-units.md)
+8. Rebase into small ordered commits that tell the story. A subtraction commit, then the reshape, then any follow-on cleanup, so a single revert undoes one slice. Run **Opening a PR** (`~/dev/personal/my-skills/playbooks/opening-a-pr.md`). (principles/sequence-verifiable-units.md)
 
 **Reply:** the structure that changed, the pin you held it against, the equivalence proof, the reader-load delta, what shipped and what got reverted. No new behavior.
