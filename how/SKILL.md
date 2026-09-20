@@ -36,13 +36,13 @@ When in doubt, lean simple. You can always spawn explorers if you hit a wall.
 
 ### Step 2a. Explore (complex questions only)
 
-Decompose the question into 2-4 parallel exploration angles, each a distinct slice of the subsystem so explorers don't duplicate work. Example split for "how does the shop checkout work?":
+Decompose the question into parallel exploration angles, each a distinct slice of the subsystem so explorers don't duplicate work. Example split for "how does the shop checkout work?":
 
 - Explorer 1: data model and Payload collections
 - Explorer 2: request path from cart to payment callback
 - Explorer 3: i18n, pricing, and formatting
 
-Narrow questions: 2 explorers. Broad subsystems: up to 4. Never more; every runner lands on this laptop.
+Narrow questions: 2 explorers. Broad subsystems: one per distinct slice.
 
 Spawn all explorers in a single message with the Agent tool, `subagent_type: "Explore"`. Each explorer gets the base prompt from `references/explorer-prompt.md` plus its exploration angle. Each explorer should:
 

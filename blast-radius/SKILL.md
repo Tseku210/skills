@@ -41,7 +41,7 @@ Any safety fact you can't get to step 4, say so out loud. Don't write it up as s
 3. Look where grep stops. Read the source of the library you call, and check its pinned version and any local patch. Work out when things run: microtasks, unmount and teardown, server component versus client island, build time versus request time. Follow what a symbol search misses: the JSON an API returns, a D1 or Supabase column, a wire format, a generated `.generated.ts` file and the script that writes it, the paired `mn`/`en` message file, a KV key, a feature flag, code three hops downstream.
 4. Be honest about each risk. Give it a real chance of happening and a real cost if it does. Keep the risks you confirmed; list the ones you checked and cleared separately. Cite a real `file:line`, a search that finds nothing is still an answer, and never make up a caller or an API.
 5. Prove the one fact. Write a script or test that runs the real code, run it, and paste what happened. If you can't prove it cheaply, mark it unproven. Don't round up.
-6. For a big or wide change, spawn two or three independent subagents with the same question and merge the answers. Different passes catch different real bugs. Keep it to three; every runner lands on this laptop.
+6. For a big or wide change, spawn two or three independent subagents with the same question and merge the answers. Different passes catch different real bugs.
 
 ## What to hand back
 
