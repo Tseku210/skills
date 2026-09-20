@@ -10,8 +10,7 @@ for dir in "$REPO_DIR"/*/; do
   name="$(basename "$dir")"
   # learned: scratch. plans: gitignored resume notes, no SKILL.md.
   # grill-me: retired in favour of the mattpocock grilling plugin skill.
-  # playbooks, principles: plain reference dirs read by ~/.claude/rules/playbooks.md, not skills.
-  case "$name" in learned|plans|grill-me|playbooks|principles) continue ;; esac
+  case "$name" in learned|plans|grill-me) continue ;; esac
 
   target="$SKILLS_DIR/$name"
 
