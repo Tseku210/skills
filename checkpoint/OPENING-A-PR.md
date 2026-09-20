@@ -1,19 +1,15 @@
-### Opening a PR
-
-Invoked at the end of Bug fix, Feature, Refactoring, and Visual parity.
+# Opening a PR
 
 **Branch.** Work on a branch off main. Use a worktree only when the work runs in parallel with another session on the same repo, or the user asks for one. Small fixes stay in the main checkout. Dirty branch with unrelated work: stash or patch out, don't mix it in.
 
 **Commits.** Commit liberally; rebase into small, ordered commits before opening the PR. Each commit is landable on its own and ordered to tell the story: the failing repro before the fix, the subtraction before the reshape. Amend when the fix belongs in a just-made commit; new commit when separable. Format per `~/.claude/rules/git-workflow.md`: `<type>: <description>`, types feat, fix, refactor, docs, test, chore, perf, ci. No trailing period. Write the body with `technical-writing`, then `unslop`.
-
-**Blast radius.** Before the PR, run `blast-radius` on any change with fan-out beyond the diff: a shared type, a generated file, a paired locale file, a migration, a shared primitive.
 
 **Description.** Base it on everything the branch adds, not the last commit: `git log main..HEAD` for intent, `git diff main...HEAD` for scope. Use these sections in order and drop a section when it is empty.
 
 - `## Why`. The intent and why this approach fits.
 - `## Scope`. Facts from the diff. Real symbols and paths. Both sides of a rename. What is in and out when the boundary matters.
 - `## Tradeoffs`. Real choices only.
-- `## Blast Radius`. Who and what the change touches, and why it is safe or risky, with the one safety fact and how far it was proven.
+- `## Risk`. Who and what the change touches outside the diff, and why it is safe or risky.
 - `## Verification`. How you ran each check and its outcome, not only the command name. Name the real path: the `verify-<app>` skill, agent-browser, the targeted tests. Remaining manual checks go here as `- [ ]` items.
 
 Attach screenshots when they prove a claim. No `## Summary` boilerplate. End the body with the attribution line the session requires.

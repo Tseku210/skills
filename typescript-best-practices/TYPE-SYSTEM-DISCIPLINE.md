@@ -1,6 +1,6 @@
 # Type system discipline
 
-The type checker is a proof assistant. Use it to eliminate impossible states, mismatched primitives, and unhandled variants at compile time. Prefer defining errors and special cases out of existence over adding handlers. The `typescript-best-practices` skill grounds this in syntax.
+The type checker is a proof assistant. Use it to eliminate impossible states, mismatched primitives, and unhandled variants at compile time. Prefer defining errors and special cases out of existence over adding handlers.
 
 - Make illegal states unrepresentable. Model variants as discriminated unions (or enums with payloads in Swift), not a bag of optional fields where contradictory combinations compile. `{ completed: boolean; completedAt?: Date }` admits nonsense; use `{ kind: 'open' } | { kind: 'done'; at: Date }` or derive the boolean from one source.
 - Types are constructions, not restrictions. Build the type from the values you want instead of carving them out of a looser type with checks. A non-empty list is a head plus a rest; a valid time range is a start plus a duration.

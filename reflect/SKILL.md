@@ -52,7 +52,7 @@ One `Agent` call, `subagent_type: general-purpose`, using `references/synthesize
 
 ### 4. Structural enforcement check
 
-Sanity-check the synthesizer's Accepted list. For any item that would be enforced more reliably by a lint rule, script, metadata flag, or runtime check, move it from Accepted to Backlog. The synthesizer already applies this criterion; this is a final pass before edits land. See `~/dev/personal/my-skills/principles/encode-lessons-in-structure.md`.
+Sanity-check the synthesizer's Accepted list. For any item that would be enforced more reliably by a lint rule, script, metadata flag, or runtime check, move it from Accepted to Backlog. The synthesizer already applies this criterion; this is a final pass before edits land.
 
 ### 5. Apply
 
@@ -64,7 +64,7 @@ Edit sources, never symlinks. A skill under `~/.claude/skills/<name>` is a symli
 
 For each approved Accepted item, follow the Routing field exactly:
 
-- Trivial edit (a one-line bullet, a tightened sentence, a stale fact corrected) to a skill, a playbook, a principle, a `~/.claude/rules/*.md` file, or a project CLAUDE.md / AGENTS.md: parent does directly.
+- Trivial edit (a one-line bullet, a tightened sentence, a stale fact corrected) to a skill, a `~/.claude/rules/*.md` file, or a project CLAUDE.md / AGENTS.md: parent does directly.
 - Substantive skill edit (a new section, a new pattern table, more than ~10 lines): run the `write-a-skill` skill's draft / test / iterate loop against the existing skill.
 - `tune description: <skill path>` (the skill exists but didn't trigger when it should have): rewrite the `description` line so it front-loads the trigger phrases, then check it against the transcript moment that should have fired it.
 - `new skill via write-a-skill: <kebab-name>`: hand creation to `write-a-skill`, in `~/dev/personal/my-skills/<kebab-name>/`, then run `./link.sh`. Do not invent the shape ad hoc.

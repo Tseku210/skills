@@ -35,10 +35,9 @@ Scan for:
 Findings must point to skills, tools, or MCPs invoked in this transcript. Speculative routings to skills the parent never opened do not count. To check whether a skill was used, scan the transcript for:
 
 - `Skill` tool calls (the `skill` argument names the skill)
-- `Read` tool calls against any `SKILL.md` (project `.claude/skills/`, user-level `~/.claude/skills/` and its source repo `~/dev/personal/my-skills/`, or plugin paths under `~/.claude/plugins/`), against a playbook or principle under `~/dev/personal/my-skills/playbooks/` and `principles/`, or against a rules file under `~/.claude/rules/`
+- `Read` tool calls against any `SKILL.md` (project `.claude/skills/`, user-level `~/.claude/skills/` and its source repo `~/dev/personal/my-skills/`, or plugin paths under `~/.claude/plugins/`), or against a rules file under `~/.claude/rules/`
 - `Agent` prompts that name a skill path
 - Tool calls (Bash, Grep, MCP, etc.) that match a skill's documented commands
-- Playbook steps copied into the todo list by the playbooks rule (`~/.claude/rules/playbooks.md`); the playbook counts as used
 
 Two valid finding shapes:
 
