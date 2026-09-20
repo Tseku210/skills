@@ -1,7 +1,6 @@
 ---
 name: how
 description: "Use for \"how does X work\", code walkthroughs before changing something, placement / ownership / layering questions (\"where should this live\", \"is this the right layer\"), and \"why is it built this way\" history questions. Explains subsystem architecture, runtime flow, onboarding mental models, and cited design history."
-disable-model-invocation: true
 ---
 
 # How
