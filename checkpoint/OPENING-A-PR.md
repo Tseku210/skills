@@ -2,7 +2,7 @@
 
 **Branch.** Work on a branch off main. Use a worktree only when the work runs in parallel with another session on the same repo, or the user asks for one. Small fixes stay in the main checkout. Dirty branch with unrelated work: stash or patch out, don't mix it in.
 
-**Commits.** Commit liberally; rebase into small, ordered commits before opening the PR. Each commit is landable on its own and ordered to tell the story: the failing repro before the fix, the subtraction before the reshape. Amend when the fix belongs in a just-made commit; new commit when separable. Format per `~/.claude/rules/git-workflow.md`: `<type>: <description>`, types feat, fix, refactor, docs, test, chore, perf, ci. No trailing period. Write the body with `technical-writing`, then `unslop`.
+**Commits.** Commit liberally; rebase unpushed commits into small, ordered commits before opening the PR. Pushed commits stay as they are, since rewriting them needs a force-push. Each commit is landable on its own and ordered to tell the story: the failing repro before the fix, the subtraction before the reshape. Amend when the fix belongs in a just-made, unpushed commit; new commit when separable. Format per `~/.claude/rules/git-workflow.md`. No trailing period. Write the body with `technical-writing`, then `unslop`.
 
 **Description.** Base it on everything the branch adds, not the last commit: `git log main..HEAD` for intent, `git diff main...HEAD` for scope. Use these sections in order and drop a section when it is empty.
 
